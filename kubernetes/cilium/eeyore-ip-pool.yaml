@@ -1,0 +1,13 @@
+apiVersion: "cilium.io/v2alpha1"
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: eeyore-pool
+  namespace: kube-system
+spec:
+  blocks:
+    - start: "10.1.1.210"
+      stop: "10.1.1.219"
+
+  serviceSelector:
+    matchLabels:
+      lb-ip-pool: eeyore-pool
