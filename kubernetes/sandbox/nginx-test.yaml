@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod
+  namespace: sandbox
+  labels:
+    app: nginx
+spec:
+  containers:
+    - name: nginx
+      image: nginx:latest
+      ports:
+        - containerPort: 80
+---
+# Example of Service LoadBalancer Type
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service-lb
+  namespace: sandbox
+  labels:
+    lb-ip-pool: eeyore-pool
+spec:
+  type: LoadBalancer
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+# Example of Service ClusterIP Type
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  namespace: sandbox
+spec:
+  type: ClusterIP
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+# Example of Cilium Ingress with cert-manager cloudflare-clusterissuer
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: cloudflare-clusterissuer
+  name: sandbox-nginx
+  namespace: sandbox
+spec:
+  ingressClassName: cilium
+  rules:
+    - host: nginx-test.home.peerawitp.me
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: nginx-service
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - nginx-test.home.peerawitp.me
+      secretName: nginx-test-home-tls-secret
