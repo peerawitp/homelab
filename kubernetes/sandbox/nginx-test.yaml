@@ -35,8 +35,6 @@ kind: Service
 metadata:
   name: nginx-service
   namespace: sandbox
-  annotations:
-    external-dns.alpha.kubernetes.io/hostname: nginx-test.home.peerawitp.me
 spec:
   type: ClusterIP
   selector:
@@ -51,6 +49,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
+    external-dns.alpha.kubernetes.io/hostname: nginx-test.home.peerawitp.me
     cert-manager.io/cluster-issuer: cloudflare-clusterissuer
   name: sandbox-nginx
   namespace: sandbox
