@@ -35,6 +35,8 @@ kind: Service
 metadata:
   name: nginx-service
   namespace: sandbox
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: nginx-test.home.peerawitp.me
 spec:
   type: ClusterIP
   selector:
