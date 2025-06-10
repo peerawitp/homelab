@@ -16,3 +16,4 @@
 > `/dev/net/tun` for wireguard support
 
 [See the full documentation here](https://omni.siderolabs.com/how-to-guides/self_hosted/index)
+[SAML Authentication with Authentik guide](https://dbodky.me/blog/configuring-saml-authentication-for-omni-with-authentik/)
